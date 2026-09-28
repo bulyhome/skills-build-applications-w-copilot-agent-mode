@@ -1,5 +1,10 @@
 import CollectionPage from './CollectionPage.jsx'
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const apiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/users`
+  : 'http://localhost:8000/api/users'
+
 const columns = [
   { key: 'displayName', label: 'Name' },
   { key: 'username', label: 'Username' },
@@ -8,5 +13,5 @@ const columns = [
 ]
 
 export default function Users() {
-  return <CollectionPage title="Users" description="People in your OctoFit community." endpoint="users" columns={columns} />
+  return <CollectionPage title="Users" description="People in your OctoFit community." endpoint="users" apiUrl={apiUrl} columns={columns} />
 }

@@ -1,5 +1,10 @@
 import CollectionPage from './CollectionPage.jsx'
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const apiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/activities`
+  : 'http://localhost:8000/api/activities'
+
 const columns = [
   { key: 'type', label: 'Activity' },
   { key: 'user', label: 'Athlete' },
@@ -9,5 +14,5 @@ const columns = [
 ]
 
 export default function Activities() {
-  return <CollectionPage title="Activities" description="Training sessions logged by your community." endpoint="activities" columns={columns} />
+  return <CollectionPage title="Activities" description="Training sessions logged by your community." endpoint="activities" apiUrl={apiUrl} columns={columns} />
 }

@@ -20,7 +20,7 @@ function displayValue(value) {
   return String(value)
 }
 
-export default function CollectionPage({ title, description, endpoint, columns }) {
+export default function CollectionPage({ title, description, endpoint, apiUrl, columns }) {
   const [rows, setRows] = useState([])
   const [status, setStatus] = useState('loading')
   const [requestId, setRequestId] = useState(0)
@@ -31,7 +31,8 @@ export default function CollectionPage({ title, description, endpoint, columns }
     async function loadCollection() {
       setStatus('loading')
       try {
-        const response = await fetch(`${apiBaseUrl}/${endpoint}/`, { signal: controller.signal })
+        const requestUrl = apiUrl ?? `${apiBaseUrl}/${endpoint}`
+        const response = await fetch(`${requestUrl}/`, { signal: controller.signal })
         if (!response.ok) throw new Error(`Request failed (${response.status})`)
         const payload = await response.json()
         setRows(getRows(payload))
@@ -43,7 +44,7 @@ export default function CollectionPage({ title, description, endpoint, columns }
 
     loadCollection()
     return () => controller.abort()
-  }, [endpoint, requestId])
+  }, [apiUrl, endpoint, requestId])
 
   return (
     <section className="page-content">
